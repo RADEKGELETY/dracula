@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DRACULA – Interaktivní temná kniha</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  background: radial-gradient(circle at center, #050505 0%, #000 100%);
+  color: #e5e5e5;
+  font-family: 'EB Garamond', serif;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 60px 20px;
+}
+
+h1 {
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  font-size: 48px;
+  letter-spacing: 6px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  opacity: 0.6;
+  margin-bottom: 60px;
+}
+
+.chapter {
+  margin-bottom: 120px;
+  animation: fadeIn 2s ease;
+}
+
+.chapter h2 {
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+p {
+  line-height: 1.9;
+  font-size: 19px;
+}
+
+.image {
+  width: 100%;
+  height: 350px;
+  margin: 40px 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(100%) contrast(140%) brightness(80%);
+  box-shadow: 0 0 40px rgba(255,255,255,0.05);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background: transparent;
+  color: #ccc;
+  border: 1px solid #444;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #111;
+  color: #fff;
+  border-color: #888;
+}
+
+.glow {
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(30px);} 
+  to {opacity:1; transform: translateY(0);} 
+}
+
+audio { display:none; }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 class="glow">DRACULA</h1>
+<div class="subtitle">Interaktivní temná kronika</div>
+
+<div class="chapter">
+<h2>Prolog — Karpaty</h2>
+<div class="image" style="background-image:url('assets/ch1.jpg')"></div>
+<p>
+Některé příběhy nezačínají člověkem. Začínají krajinou. fileciteturn0file0
+Karpaty byly vždy hranicí mezi světy. A v těchto horách se rodí věci, které by neměly existovat.
+</p>
+<div class="controls">
+<button onclick="playAudio('a1')">▶ Poslouchat</button>
+<button onclick="stopAudio('a1')">■ Stop</button>
+</div>
+<audio id="a1" src="assets/audio/ch1.mp3"></audio>
+</div>
+
+<div class="chapter">
+<h2>Kapitola I — Poslední zpověď</h2>
+<div class="image" style="background-image:url('assets/ch2.jpg')"></div>
+<p>
+Mé jméno je Rado Drăculea. Pokud čteš tyto řádky, jsem mrtvý.
+Ale právě proto mohu konečně říct pravdu.
+
+Draculu nestvořil Bůh.
+Stvořil jsem ho já.
+</p>
+<div class="controls">
+<button onclick="playAudio('a2')">▶ Poslouchat</button>
+<button onclick="stopAudio('a2')">■ Stop</button>
+</div>
+<audio id="a2" src="assets/audio/ch2.mp3"></audio>
+</div>
+
+<div class="chapter">
+<h2>Kapitola II — Dětství v horách</h2>
+<div class="image" style="background-image:url('assets/ch3.jpg')"></div>
+<p>
+Byli jsme jen dva bratři.
+Lesy Karpat byly náš svět.
+A přesto už tehdy bylo jasné, že jeden z nás bude vládnout…
+
+a druhý ho zničí.
+</p>
+<div class="controls">
+<button onclick="playAudio('a3')">▶ Poslouchat</button>
+<button onclick="stopAudio('a3')">■ Stop</button>
+</div>
+<audio id="a3" src="assets/audio/ch3.mp3"></audio>
+</div>
+
+</div>
+
+<audio id="bg-music" src="assets/music.mp3" loop></audio>
+
+<script>
+let musicStarted = false;
+
+function playAudio(id) {
+  let audio = document.getElementById(id);
+  audio.play();
+
+  if (!musicStarted) {
+    document.getElementById('bg-music').volume = 0.3;
+    document.getElementById('bg-music').play();
+    musicStarted = true;
+  }
+}
+
+function stopAudio(id) {
+  let audio = document.getElementById(id);
+  audio.pause();
+  audio.currentTime = 0;
+}
+</script>
+
+</body>
+</html>
