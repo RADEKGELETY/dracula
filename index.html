@@ -17,9 +17,9 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
-  padding: 60px 20px;
+  padding: 80px 20px;
 }
 
 h1 {
@@ -48,18 +48,30 @@ h1 {
 }
 
 p {
-  line-height: 1.9;
-  font-size: 19px;
+  line-height: 2;
+  font-size: 20px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  letter-spacing: 0.5px;
 }
 
 .image {
   width: 100%;
-  height: 350px;
-  margin: 40px 0;
+  height: 400px;
+  margin: 50px 0;
   background-size: cover;
   background-position: center;
-  filter: grayscale(100%) contrast(140%) brightness(80%);
-  box-shadow: 0 0 40px rgba(255,255,255,0.05);
+  filter: grayscale(100%) contrast(150%) brightness(70%);
+  box-shadow: inset 0 0 120px rgba(0,0,0,0.9), 0 0 40px rgba(255,255,255,0.05);
+  position: relative;
+}
+
+.image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 40%, black 100%);
 }
 
 .controls {
@@ -70,12 +82,20 @@ p {
 }
 
 button {
-  padding: 10px 20px;
-  background: transparent;
+  padding: 12px 26px;
+  background: rgba(255,255,255,0.05);
   color: #ccc;
-  border: 1px solid #444;
+  border: 1px solid rgba(255,255,255,0.2);
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.4s;
+  backdrop-filter: blur(4px);
+}
+
+button:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-color: #aaa;
+  transform: scale(1.05);
 }
 
 button:hover {
@@ -109,8 +129,13 @@ audio { display:none; }
 <h2>Prolog — Karpaty</h2>
 <div class="image" style="background-image:url('assets/ch1.jpg')"></div>
 <p>
-Některé příběhy nezačínají člověkem. Začínají krajinou. fileciteturn0file0
-Karpaty byly vždy hranicí mezi světy. A v těchto horách se rodí věci, které by neměly existovat.
+Některé příběhy nezačínají člověkem.
+Začínají krajinou.
+
+Karpaty byly vždy hranicí mezi světy.
+
+A v těchto horách se rodí věci,
+které by neměly existovat.
 </p>
 <div class="controls">
 <button onclick="playAudio('a1')">▶ Poslouchat</button>
