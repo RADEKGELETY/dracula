@@ -4,202 +4,745 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DRACULA – Interaktivní temná kniha</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-body {
-  margin: 0;
-  background: radial-gradient(circle at center, #050505 0%, #000 100%);
-  color: #e5e5e5;
-  font-family: 'EB Garamond', serif;
-  overflow-x: hidden;
+:root {
+  --bg: #020202;
+  --panel: #070707;
+  --text: #e8e5df;
+  --muted: #a7a19a;
+  --line: rgba(255,255,255,0.14);
+  --line-strong: rgba(255,255,255,0.28);
+  --glow: rgba(255,255,255,0.08);
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 80px 20px;
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top center, rgba(255,255,255,0.04), transparent 28%),
+    radial-gradient(circle at bottom center, rgba(255,255,255,0.02), transparent 30%),
+    var(--bg);
+  color: var(--text);
+  font-family: 'EB Garamond', serif;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(255,255,255,0.012) 3px
+    );
+  opacity: 0.22;
+}
+
+.hero {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px 50px;
+  text-align: center;
+}
+
+.hero-inner {
+  max-width: 960px;
 }
 
 h1 {
+  margin: 0;
   font-family: 'Cinzel', serif;
-  text-align: center;
-  font-size: 48px;
-  letter-spacing: 6px;
-  margin-bottom: 10px;
+  font-size: clamp(52px, 8vw, 110px);
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  text-shadow: 0 0 24px var(--glow);
 }
 
 .subtitle {
-  text-align: center;
-  opacity: 0.6;
-  margin-bottom: 60px;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: clamp(18px, 2vw, 28px);
+}
+
+.hero-intro {
+  max-width: 700px;
+  margin: 28px auto 0;
+  color: #d5d0ca;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.7;
+}
+
+.top-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px 120px;
 }
 
 .chapter {
-  margin-bottom: 120px;
-  animation: fadeIn 2s ease;
+  margin: 0 auto 120px;
+  padding: 34px 0 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.chapter-meta {
+  text-align: center;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-bottom: 10px;
 }
 
 .chapter h2 {
+  margin: 0 0 26px;
+  text-align: center;
   font-family: 'Cinzel', serif;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-p {
-  line-height: 2;
-  font-size: 20px;
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-  letter-spacing: 0.5px;
+  font-size: clamp(28px, 4vw, 46px);
+  letter-spacing: 0.04em;
+  font-weight: 600;
 }
 
 .image {
   width: 100%;
-  height: 400px;
-  margin: 50px 0;
+  height: min(54vw, 520px);
+  min-height: 260px;
+  margin: 0 auto 32px;
+  border: 1px solid rgba(255,255,255,0.08);
   background-size: cover;
   background-position: center;
-  filter: grayscale(100%) contrast(150%) brightness(70%);
-  box-shadow: inset 0 0 120px rgba(0,0,0,0.9), 0 0 40px rgba(255,255,255,0.05);
+  filter: grayscale(100%) contrast(135%) brightness(62%);
+  box-shadow:
+    inset 0 0 140px rgba(0,0,0,0.95),
+    inset 0 0 30px rgba(255,255,255,0.03),
+    0 0 40px rgba(255,255,255,0.035);
   position: relative;
 }
 
 .image::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 40%, black 100%);
+  background: radial-gradient(circle at center, transparent 34%, rgba(0,0,0,0.88) 100%);
 }
 
 .controls {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  margin-top: 20px;
+  margin: 0 0 30px;
 }
 
 button {
-  padding: 12px 26px;
-  background: rgba(255,255,255,0.05);
-  color: #ccc;
-  border: 1px solid rgba(255,255,255,0.2);
+  appearance: none;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  padding: 12px 18px;
   cursor: pointer;
-  transition: 0.4s;
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  transition: 0.25s ease;
   backdrop-filter: blur(4px);
 }
 
 button:hover {
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  border-color: #aaa;
-  transform: scale(1.05);
+  border-color: var(--line-strong);
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-1px);
 }
 
-button:hover {
-  background: #111;
-  color: #fff;
-  border-color: #888;
+button.active {
+  border-color: rgba(255,255,255,0.42);
+  background: rgba(255,255,255,0.11);
 }
 
-.glow {
-  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+.text-wrap {
+  max-width: 760px;
+  margin: 0 auto;
 }
 
-@keyframes fadeIn {
-  from {opacity:0; transform: translateY(30px);} 
-  to {opacity:1; transform: translateY(0);} 
+.text {
+  font-size: clamp(23px, 2.2vw, 31px);
+  line-height: 1.9;
+  color: #ece7df;
 }
 
-audio { display:none; }
+.text p {
+  margin: 0 0 1.3em;
+}
 
+.text .dropcap::first-letter {
+  float: left;
+  font-family: 'Cinzel', serif;
+  font-size: 3.2em;
+  line-height: 0.88;
+  padding-right: 10px;
+  padding-top: 8px;
+  color: #f5f3ef;
+}
+
+.reading-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.72);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.reading-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 12px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.reading-title {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.reading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.status {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 20px;
+  font-size: 15px;
+}
+
+@media (max-width: 700px) {
+  .hero { min-height: 56vh; padding-top: 56px; }
+  .container { padding-left: 16px; padding-right: 16px; }
+  .text { font-size: 22px; line-height: 1.82; }
+  .controls, .top-controls, .reading-actions { gap: 8px; }
+  button { width: 100%; }
+  .controls button, .top-controls button { max-width: 320px; }
+}
 </style>
 </head>
-
 <body>
 
-<div class="container">
-
-<h1 class="glow">DRACULA</h1>
-<div class="subtitle">Interaktivní temná kronika</div>
-
-<div class="chapter">
-<h2>Prolog — Karpaty</h2>
-<div class="image" style="background-image:url('assets/ch1.jpg')"></div>
-<p>
-Některé příběhy nezačínají člověkem.
-Začínají krajinou.
-
-Karpaty byly vždy hranicí mezi světy.
-
-A v těchto horách se rodí věci,
-které by neměly existovat.
-</p>
-<div class="controls">
-<button onclick="playAudio('a1')">▶ Poslouchat</button>
-<button onclick="stopAudio('a1')">■ Stop</button>
-</div>
-<audio id="a1" src="assets/audio/ch1.mp3"></audio>
+<div class="reading-bar">
+  <div class="reading-inner">
+    <div class="reading-title">Dracula — interaktivní temná kronika</div>
+    <div class="reading-actions">
+      <button id="globalMusicBtn" onclick="toggleMusic(this)">🎵 Pustit soundtrack</button>
+      <button onclick="stopNarration()">■ Zastavit hlas</button>
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Nahoru</button>
+    </div>
+  </div>
 </div>
 
-<div class="chapter">
-<h2>Kapitola I — Poslední zpověď</h2>
-<div class="image" style="background-image:url('assets/ch2.jpg')"></div>
-<p>
-Mé jméno je Rado Drăculea. Pokud čteš tyto řádky, jsem mrtvý.
-Ale právě proto mohu konečně říct pravdu.
+<header class="hero">
+  <div class="hero-inner">
+    <h1>DRACULA</h1>
+    <div class="subtitle">Interaktivní temná kronika</div>
+    <div class="hero-intro">
+      Kniha ke čtení. Audiokniha na poslech. Soundtrack pro atmosféru.
+      Temný první náhled kombinující román, komix a filmový zážitek.
+    </div>
+    <div class="top-controls">
+      <button onclick="document.getElementById('prolog').scrollIntoView({behavior:'smooth'})">Začít číst</button>
+      <button onclick="toggleMusic(this)">🎵 Pustit soundtrack</button>
+    </div>
+    <div class="status" id="statusText">Můžeš jen číst, pustit si hudbu, nebo poslouchat text jako audioknihu.</div>
+  </div>
+</header>
 
-Draculu nestvořil Bůh.
-Stvořil jsem ho já.
-</p>
-<div class="controls">
-<button onclick="playAudio('a2')">▶ Poslouchat</button>
-<button onclick="stopAudio('a2')">■ Stop</button>
-</div>
-<audio id="a2" src="assets/audio/ch2.mp3"></audio>
-</div>
+<main class="container">
 
-<div class="chapter">
-<h2>Kapitola II — Dětství v horách</h2>
-<div class="image" style="background-image:url('assets/ch3.jpg')"></div>
-<p>
-Byli jsme jen dva bratři.
-Lesy Karpat byly náš svět.
-A přesto už tehdy bylo jasné, že jeden z nás bude vládnout…
+  <section class="chapter" id="prolog">
+    <div class="chapter-meta">Začátek knihy</div>
+    <h2>Prolog — Karpaty, noc roku 1462</h2>
+    <div class="image" style="background-image:url('assets/ch1.jpg')"></div>
+    <div class="controls">
+      <button onclick="playNarration('text-prolog', this)">🎧 Přehrát kapitolu</button>
+      <button onclick="stopNarration()">■ Stop hlasu</button>
+      <button onclick="toggleMusic(this)">🎵 Hudba</button>
+    </div>
+    <div class="text-wrap">
+      <div class="text" id="text-prolog">
+        <p class="dropcap">Vítr přicházel z hor.</p>
+        <p>Ne prudce, ne jako bouře, ale dlouhým táhlým dechem, který se plazil mezi stromy a nesl s sebou chlad z vysokých hřebenů. Lesy Karpat byly v té noci temné tak, jak mohou být temné jen staré lesy — hluboké, tiché a téměř bez konce.</p>
+        <p>Cesta, která vedla údolím řeky Argeș, byla úzká a rozbitá. Kůň po ní kráčel pomalu, jako by sám cítil, že noc není bezpečná.</p>
+        <p>Jezdec byl unavený.</p>
+        <p>Cestoval už mnoho dní z jihu, z krajiny, kde válka zanechala spálená pole a prázdné vesnice. Za ním zůstala země, kterou právě prošla armáda sultána. Před ním byly jen hory.</p>
+        <p>A někde mezi nimi hrad.</p>
+        <p>Vítr zesílil a koruny stromů se začaly pohybovat. Jehličí šumělo jako vzdálený šepot. Jezdec zvedl hlavu a zadíval se vzhůru do tmy.</p>
+        <p>Někde vysoko nad údolím, za černými siluetami stromů, měla stát pevnost.</p>
+        <p>Poenari.</p>
+        <p>Cesta začala stoupat.</p>
+        <p>Les kolem ní byl stále hustší. Kmeny stromů stály těsně vedle sebe, jejich větve se nad cestou proplétaly a vytvářely strop, skrz který pronikalo jen málo světla. Měsíc byl zakrytý mraky a noc byla téměř úplná.</p>
+        <p>Jen občas se mezi stromy objevilo slabé světlo — malé ohně v odlehlých pasteveckých chýších nebo svíce za oknem některé z horských chalup.</p>
+        <p>Ale většinou byla tma.</p>
+        <p>Taková, která pohlcuje zvuky.</p>
+        <p>Jezdec si všiml, že les kolem něj náhle ztichl. Ptáci mlčeli. Dokonce i vítr na chvíli ustal.</p>
+        <p>Zůstal jen rytmus koňských kopyt.</p>
+        <p>V jedné z vesnic, kterou projel před soumrakem, ho starý muž zastavil.</p>
+        <p>Byl shrbený, s hlubokými vráskami ve tváři a očima, které se dívaly spíš do minulosti než na cestu před sebou.</p>
+        <p>„Kam jedeš?“ zeptal se.</p>
+        <p>„Na hrad.“</p>
+        <p>Starý muž dlouho mlčel. Pak jen pomalu zavrtěl hlavou.</p>
+        <p>„Do hor se po setmění nejezdí.“</p>
+        <p>Jezdec se pousmál. Taková varování slyšel už mnohokrát.</p>
+        <p>„Nebojím se vlků.“</p>
+        <p>Stařec však zavrtěl hlavou znovu.</p>
+        <p>„Vlků ne.“</p>
+        <p>Pak se otočil a odešel, aniž by vysvětlil víc.</p>
+        <p>Teď, když jezdec stoupal temným lesem, si na jeho slova vzpomněl.</p>
+        <p>Vítr se znovu zvedl.</p>
+        <p>Teď nesl s sebou zvláštní zvuk — vzdálené vytí.</p>
+        <p>Vlci.</p>
+        <p>Ne jeden. Více.</p>
+        <p>Zvuk přicházel z různých stran, odrážel se od skal a stromů a měnil se v podivnou ozvěnu, která zaplňovala celé údolí.</p>
+        <p>Kůň se neklidně zavrtěl.</p>
+        <p>Jezdec ho uklidnil a pokračoval dál.</p>
+        <p>Po chvíli se stromy začaly rozestupovat.</p>
+        <p>Cesta vystoupila z lesa na úzký skalní hřeben. Vítr zde foukal silněji a mraky se na okamžik roztrhly.</p>
+        <p>Měsíc se objevil nad horami.</p>
+        <p>A v jeho světle se před jezdcem objevil hrad.</p>
+        <p>Stál vysoko na skalnatém vrcholu, téměř jako součást hory samotné. Zdi byly tmavé a vysoké, věže ostré jako hroty kopí. Nebyl to palác, ale pevnost — místo postavené pro válku.</p>
+        <p>Několik oken svítilo slabým světlem.</p>
+        <p>Všude kolem byly jen lesy.</p>
+        <p>A hluboko pod hradem řeka, která se v měsíčním světle leskla jako stříbrná čepel.</p>
+        <p>Jezdec zastavil koně.</p>
+        <p>Hrad působil zvláštním dojmem. Nebyl opuštěný, a přesto byl tichý — jako by uvnitř někdo čekal.</p>
+        <p>V tu chvíli se vítr zvedl znovu.</p>
+        <p>Z lesa za jezdcem se ozvalo další vytí vlků, tentokrát bližší.</p>
+        <p>Kůň zafrkal a neklidně přešlápl.</p>
+        <p>Jezdec se ještě jednou podíval na hrad.</p>
+        <p>Pak pomalu pobídl koně vpřed.</p>
+        <p>Cesta vedla vzhůru k bráně.</p>
+        <p>Nikde nebyla hlídka.</p>
+        <p>Nikde žádný hlas.</p>
+        <p>Jen vítr, který procházel mezi kameny, a vzdálené vytí vlků v temných lesích Karpat.</p>
+        <p>Když jezdec dojel k bráně, těžké dveře se začaly pomalu otevírat.</p>
+        <p>Nikdo nebyl vidět.</p>
+        <p>Ale někdo je otevřel.</p>
+        <p>Nad hradem se znovu zavřely mraky a měsíc zmizel.</p>
+        <p>Tma se vrátila.</p>
+        <p>A jezdec vstoupil do pevnosti muže, jehož jméno už tehdy začínalo budit strach.</p>
+        <p>Drăculea.</p>
+        <p>Syn draka.</p>
+        <p>Vládce země na hranici světa.</p>
+        <p>Tak začíná příběh, který se po staletích promění v legendu.</p>
+      </div>
+    </div>
+  </section>
 
-a druhý ho zničí.
-</p>
-<div class="controls">
-<button onclick="playAudio('a3')">▶ Poslouchat</button>
-<button onclick="stopAudio('a3')">■ Stop</button>
-</div>
-<audio id="a3" src="assets/audio/ch3.mp3"></audio>
-</div>
+  <section class="chapter" id="chapter1">
+    <div class="chapter-meta">Kniha první — Zrození Draculy</div>
+    <h2>Kapitola I — Poslední zpověď Rada</h2>
+    <div class="image" style="background-image:url('assets/ch2.jpg')"></div>
+    <div class="controls">
+      <button onclick="playNarration('text-ch1', this)">🎧 Přehrát kapitolu</button>
+      <button onclick="stopNarration()">■ Stop hlasu</button>
+      <button onclick="toggleMusic(this)">🎵 Hudba</button>
+    </div>
+    <div class="text-wrap">
+      <div class="text" id="text-ch1">
+        <p class="dropcap">Nevím, kdo tyto stránky jednou otevře.</p>
+        <p>Možná nikdo. Možná mnich, který bude uklízet pokoj po mé smrti. Možná učenec, který bude hledat pravdu v zaprášených kronikách. A možná jen někdo, kdo bude chtít věřit příběhu o monstru.</p>
+        <p>Ale pokud tyto řádky někdo čte, znamená to, že jsem už mrtvý.</p>
+        <p>A právě proto mohu konečně psát pravdu.</p>
+        <p>Mé jméno je Rado Drăculea.</p>
+        <p>Syn Vlada, kterému říkali Dracul — drak.</p>
+        <p>Bratr muže, jehož jméno dnes šeptají lidé se strachem.</p>
+        <p>Můj bratr se jmenoval Vlado.</p>
+        <p>A svět ho zná jinak.</p>
+        <p>Jako Draculu.</p>
+        <p>Lidé si myslí, že znají jeho příběh.</p>
+        <p>Vyprávějí o krvi, o kůlech a o lesích plných mrtvých těl. Říkají, že byl šílený. Že byl zvíře. Že byl démon v lidské podobě.</p>
+        <p>Možná mají pravdu.</p>
+        <p>Ale nikdo z nich neví, kdy se to stalo.</p>
+        <p>Nikdo neví, kdy se z mého bratra stal stín, který dodnes chodí mezi lidmi.</p>
+        <p>Já to vím.</p>
+        <p>Protože jsem tam byl.</p>
+        <p>Protože jsem ho znal dřív, než ho začal znát svět.</p>
+        <p>Dřív, než ho začali nazývat monstrem.</p>
+        <p>Když jsme byli děti, nebyl Vlado nic víc než chlapec z hor.</p>
+        <p>Běhali jsme po lesích Karpat, kde byly stromy tak staré, že jejich kořeny prorůstaly kameny. Lovili jsme v údolích, kde se ráno držela mlha, a večer jsme seděli u ohně a poslouchali staré příběhy o vlcích a o duších, které se někdy vracejí z mrtvých.</p>
+        <p>Vlado byl vždy silnější než já.</p>
+        <p>Já byl jen rychlejší.</p>
+        <p>A možná chytřejší.</p>
+        <p>Ale tehdy jsme byli bratři.</p>
+        <p>A nic na světě nebylo důležitější.</p>
+        <p>Pak přišla noc, která změnila všechno.</p>
+        <p>Noc, kdy jsme opustili domov a byli odvedeni daleko od hor.</p>
+        <p>Do světa, kde se rodí říše.</p>
+        <p>Do světa, kde se rodí monstra.</p>
+        <p>O tom však budu psát později.</p>
+        <p>Nejdřív musíš pochopit jednu věc.</p>
+        <p>Vlado nebyl monstrum, když se narodil.</p>
+        <p>Ani když byl mladý.</p>
+        <p>Ani když jsme byli rukojmí u dvora sultána.</p>
+        <p>Ne.</p>
+        <p>Monstrum se nerodí.</p>
+        <p>Monstrum se vytváří.</p>
+        <p>A pokud existuje pravda, kterou musí tento deník říct, pak je to tato:</p>
+        <p>Draculu nestvořil Bůh.<br> Nestvořil ho ani svět.<br> Stvořil jsem ho já.</p>
+        <p>Tato zpověď není psána pro lidi.</p>
+        <p>Je psána pro Boha.</p>
+        <p>Protože vím, že až se mé srdce zastaví, bude to on, kdo se mě zeptá na jedinou otázku:</p>
+        <p>„Proč?“</p>
+        <p>A já nevím, jestli na ni dokážu odpovědět.</p>
+        <p>Ale vím, že musím alespoň vyprávět příběh.</p>
+        <p>Od začátku.</p>
+        <p>Od dnů, kdy jsme byli jen dva bratři v lesích Karpat.</p>
+        <p>Dřív, než svět poznal jméno Dracula.</p>
+        <p>Dřív, než jsem pochopil, že některé legendy nejsou jen příběhy.</p>
+        <p>Ale tresty.</p>
+        <p>Proto začínám psát.</p>
+        <p>A pokud někdo tyto stránky jednou čte, pak už víš první pravdu.</p>
+        <p>Ne o mém bratrovi.</p>
+        <p>Ale o mně.</p>
+        <p>Já jsem Rado.</p>
+        <p>A já jsem stvořil Draculu.</p>
+      </div>
+    </div>
+  </section>
 
-</div>
+  <section class="chapter" id="chapter2">
+    <div class="chapter-meta">Kniha první — Zrození Draculy</div>
+    <h2>Kapitola II — Dětství v horách</h2>
+    <div class="image" style="background-image:url('assets/ch3.jpg')"></div>
+    <div class="controls">
+      <button onclick="playNarration('text-ch2', this)">🎧 Přehrát kapitolu</button>
+      <button onclick="stopNarration()">■ Stop hlasu</button>
+      <button onclick="toggleMusic(this)">🎵 Hudba</button>
+    </div>
+    <div class="text-wrap">
+      <div class="text" id="text-ch2">
+        <p class="dropcap">Než začneš soudit mého bratra, musíš nejprve poznat zemi, která nás zrodila.</p>
+        <p>Protože v Karpatech se lidé nerodí stejní jako jinde.</p>
+        <p>Hory člověka formují jinak než města.</p>
+        <p>Vítr je zde ostřejší. Zima delší. A noc hlubší.</p>
+        <p>Lesy jsou staré tak, že některé stromy pamatují více lidských životů, než kolik jich dokáže spočítat kronikář. V těch lesích jsme vyrůstali.</p>
+        <p>Já a Vlado.</p>
+        <p>Náš otec byl vládce.</p>
+        <p>Ale my jsme byli děti hor.</p>
+        <p>Často jsme utíkali z kamenných zdí dvora, protože Vlado nenáviděl být zavřený. Říkal, že skutečný muž musí znát les stejně dobře jako meč.</p>
+        <p>A tak jsme běhali mezi stromy, které rostly tak blízko sebe, že slunce někdy sotva proniklo až k zemi.</p>
+        <p>Pamatuji si jeden den obzvlášť jasně.</p>
+        <p>Bylo nám možná deset nebo jedenáct let.</p>
+        <p>Ráno bylo chladné a mlha ležela v údolí jako bílé moře. Vlado mě vzbudil ještě před svítáním a řekl, že dnes půjdeme lovit vlky.</p>
+        <p>Smál jsem se.</p>
+        <p>„Vlků se nebojím,“ řekl jsem.</p>
+        <p>Vlado se na mě podíval tím svým zvláštním pohledem, který měl už jako dítě.</p>
+        <p>Nebyl to pohled chlapce.</p>
+        <p>Byl to pohled někoho, kdo už tehdy věděl, že svět je tvrdý.</p>
+        <p>„Neměl bys,“ odpověděl.</p>
+        <p>„Vlk není nejhorší věc, která může v těchto horách žít.“</p>
+        <p>Tehdy jsem jeho slovům nerozuměl.</p>
+        <p>Ale Karpaty mají zvláštní vlastnost.</p>
+        <p>Člověk v nich časem začne chápat věci, které se nedají vysvětlit.</p>
+        <p>Večer jsme seděli u ohně a poslouchali staré pastýře, kteří vyprávěli příběhy. O duších, které se vracejí. O lidech, kteří zemřeli špatnou smrtí a nedokázali odejít.</p>
+        <p>Jako děti jsme těm příběhům nevěřili.</p>
+        <p>Ale Vlado je poslouchal jinak.</p>
+        <p>Nikdy se nesmál.</p>
+        <p>Jen seděl a díval se do ohně.</p>
+        <p>Vlado byl vždy jiný než já.</p>
+        <p>Byl starší jen o pár let, ale někdy jsem měl pocit, že mezi námi leží celý život.</p>
+        <p>Když jsme trénovali s meči, bojoval tak, jako by každá rána byla skutečná.</p>
+        <p>Když jsme jezdili na koních, jel vždy rychleji než ostatní.</p>
+        <p>A když jsme se hádali, vždy vyhrál.</p>
+        <p>Ne silou.</p>
+        <p>Ale vůlí.</p>
+        <p>Já jsem byl jiný.</p>
+        <p>Můj otec říkal, že mám dar pro slova.</p>
+        <p>Dokázal jsem přesvědčit lidi, aby udělali věci, které by jinak neudělali.</p>
+        <p>Vlado říkal, že je to slabost.</p>
+        <p>„Slova jsou pro ty, kteří neumí držet meč,“ říkal.</p>
+        <p>Ale přesto mě poslouchal.</p>
+        <p>Možná proto, že jsem byl jeho bratr.</p>
+        <p>Jednoho večera jsme seděli na kopci nad naším domovem.</p>
+        <p>Byla noc a dole v údolí hořely malé ohně vesnic.</p>
+        <p>Vítr byl studený a z lesa se ozývalo vytí vlků.</p>
+        <p>„Jednou budu vládnout,“ řekl Vlado.</p>
+        <p>Ne řekl.</p>
+        <p>Prohlásil.</p>
+        <p>Tak, jako někdo oznamuje něco, co je už rozhodnuto.</p>
+        <p>„A co budeš dělat ty?“ zeptal se.</p>
+        <p>Dlouho jsem přemýšlel.</p>
+        <p>Pak jsem odpověděl:</p>
+        <p>„Já nebudu vládnout.“</p>
+        <p>Podíval se na mě překvapeně.</p>
+        <p>Usmál jsem se.</p>
+        <p>„Já budu ten, kdo rozhoduje, kdo vládne.“</p>
+        <p>Tehdy jsme se oba zasmáli.</p>
+        <p>Byli jsme jen děti.</p>
+        <p>Nevěděli jsme, že jednoho dne budou tyto dvě věty stát proti sobě.</p>
+        <p>Když dnes zavírám oči, často se vracím právě do těchto dní.</p>
+        <p>Do lesů Karpat.</p>
+        <p>Do času, kdy jsme byli jen bratři.</p>
+        <p>Ne nepřátelé.</p>
+        <p>Ne legendy.</p>
+        <p>Jen dva chlapci, kteří věřili, že svět je větší než hory kolem nich.</p>
+        <p>Ale svět byl mnohem větší.</p>
+        <p>A brzy si pro nás přišel.</p>
+        <p>V podobě mužů, kteří přijeli z jihu.</p>
+        <p>V podobě říše, která pohlcovala země stejně snadno jako oheň suché dřevo.</p>
+        <p>Byla to noc, kdy nás odvedli od domova.</p>
+        <p>Noc, kdy jsme poprvé opustili Karpaty.</p>
+        <p>Noc, kdy jsme se stali rukojmími.</p>
+        <p>A právě tehdy začal příběh, který nakonec stvořil Draculu.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="chapter3">
+    <div class="chapter-meta">Kniha první — Zrození Draculy</div>
+    <h2>Kapitola III — Rukojmí</h2>
+    <div class="image" style="background-image:url('assets/ch4.jpg')"></div>
+    <div class="controls">
+      <button onclick="playNarration('text-ch3', this)">🎧 Přehrát kapitolu</button>
+      <button onclick="stopNarration()">■ Stop hlasu</button>
+      <button onclick="toggleMusic(this)">🎵 Hudba</button>
+    </div>
+    <div class="text-wrap">
+      <div class="text" id="text-ch3">
+        <p class="dropcap">Existují okamžiky, kdy člověk pozná, že dětství skončilo.</p>
+        <p>Ne pomalu.</p>
+        <p>Ale náhle.</p>
+        <p>Jako když se dveře zavřou za zády a ty víš, že už je nikdy neotevřeš.</p>
+        <p>Pro nás to byla noc, kdy přijeli poslové z jihu.</p>
+        <p>Pamatuji si jejich koně. Byli velcí a tmaví a jejich sedla byla zdobená způsobem, jaký jsem do té doby neviděl. Muži, kteří na nich seděli, mluvili jazykem, který zněl jako šumění vody mezi kameny.</p>
+        <p>Otec nás zavolal do své komnaty.</p>
+        <p>Stál u okna a díval se do tmy nad horami.</p>
+        <p>Dlouho mlčel.</p>
+        <p>Pak se otočil.</p>
+        <p>„Pojedete se mnou,“ řekl.</p>
+        <p>Tehdy jsem ještě nevěděl, co to znamená.</p>
+        <p>Vlado však věděl.</p>
+        <p>Viděl jsem to v jeho očích.</p>
+        <p>Ne strach.</p>
+        <p>Ale něco jiného.</p>
+        <p>Hněv.</p>
+        <p>Cesta trvala mnoho dní.</p>
+        <p>Opustili jsme Karpaty a s každou mílí se krajina měnila. Lesy řídly, hory se rozestupovaly a vzduch byl teplejší.</p>
+        <p>Poprvé jsem viděl města větší než naše pevnosti.</p>
+        <p>Poprvé jsem slyšel jazyky, kterým jsem nerozuměl.</p>
+        <p>A poprvé jsem pochopil, jak malý je náš svět v horách.</p>
+        <p>Když jsme dorazili k dvorskému městu sultána, byl večer.</p>
+        <p>Nikdy nezapomenu na první pohled.</p>
+        <p>Paláce se zvedaly nad vodou jako město z jiného světa. Všude byly světla, hudba a vůně koření, které jsem nikdy předtím necítil.</p>
+        <p>Bylo to krásné.</p>
+        <p>A děsivé.</p>
+        <p>Tehdy nám otec konečně řekl pravdu.</p>
+        <p>Nebudeme hosty.</p>
+        <p>Budeme rukojmími.</p>
+        <p>Zástavou jeho věrnosti.</p>
+        <p>Vlado vyskočil na nohy.</p>
+        <p>„Jsme synové vládce,“ řekl. „Ne vězni.“</p>
+        <p>Otec se na něj dlouho díval.</p>
+        <p>Pak odpověděl slovy, která jsem nikdy nezapomněl.</p>
+        <p>„Synu… v tomto světě jsou někdy i synové vladařů jen mince.“</p>
+        <p>Tak jsme zůstali.</p>
+        <p>Roky.</p>
+        <p>Pro Vlada to bylo vězení.</p>
+        <p>Pro mě… něco jiného.</p>
+        <p>Dvořané nás učili jazyky, zvyky a způsoby dvora.</p>
+        <p>Učili nás, jak přemýšlet o říši.</p>
+        <p>Jak funguje moc.</p>
+        <p>A já začal chápat něco, co Vlado nikdy nepřijal.</p>
+        <p>Že svět není jen o síle.</p>
+        <p>Je o vlivu.</p>
+        <p>O lidech.</p>
+        <p>O slovech.</p>
+        <p>A právě tam jsem poprvé uviděl jeho.</p>
+        <p>Mehmeda.</p>
+        <p>Byl ještě mladý, ale jeho přítomnost byla jiná než u ostatních.</p>
+        <p>Když vstoupil do místnosti, lidé se narovnali.</p>
+        <p>Ne proto, že by museli.</p>
+        <p>Ale protože chtěli.</p>
+        <p>Takovou moc jsem nikdy předtím neviděl.</p>
+        <p>Jednoho dne nás zavolali do zahrady paláce.</p>
+        <p>Byl tam on.</p>
+        <p>Seděl u fontány a poslouchal hudebníky.</p>
+        <p>Když nás uviděl, pokynul nám.</p>
+        <p>„To jsou synové Draculu,“ řekl.</p>
+        <p>Jeho hlas byl klidný.</p>
+        <p>Podíval se na Vlada.</p>
+        <p>A pak na mě.</p>
+        <p>Jeho oči se na chvíli zastavily.</p>
+        <p>„A ty,“ řekl.</p>
+        <p>„Jak se jmenuješ?“</p>
+        <p>„Rado.“</p>
+        <p>Usmál se.</p>
+        <p>„Rado,“ zopakoval pomalu.</p>
+        <p>Vlado stál vedle mě a mlčel.</p>
+        <p>Ale já jsem cítil jeho pohled.</p>
+        <p>A věděl jsem, že chápe něco, co jsem tehdy ještě nechápal.</p>
+        <p>Že ten okamžik změní všechno.</p>
+        <p>Vlado se nikdy nepřizpůsobil.</p>
+        <p>Nenáviděl každý den, který jsme tam strávili.</p>
+        <p>Nenáviděl jejich jazyk.</p>
+        <p>Jejich víru.</p>
+        <p>Jejich svět.</p>
+        <p>Já… já jsem začal vidět věci jinak.</p>
+        <p>Začal jsem chápat, že moc, kterou drží sultán, je větší než všechna naše horská království dohromady.</p>
+        <p>Začal jsem si představovat svět, který je větší než Karpaty.</p>
+        <p>Svět, kde by jeden muž mohl vládnout mnoha zemím.</p>
+        <p>A někdy v těch letech jsem začal věřit něčemu nebezpečnému.</p>
+        <p>Že tím mužem bych mohl být já.</p>
+        <p>Když dnes o tom píšu, chápu, že právě tam se všechno změnilo.</p>
+        <p>Ne ve chvíli, kdy Vlado poprvé zvedl meč.</p>
+        <p>Ale ve chvíli, kdy jsem já poprvé zatoužil po moci.</p>
+        <p>Protože od té chvíle jsme už nebyli jen bratři.</p>
+        <p>Stali jsme se něčím jiným.</p>
+        <p>Dvěma cestami.</p>
+        <p>Které se jednoho dne měly střetnout.</p>
+        <p>A mezi nimi stál muž jménem Mehmed.</p>
+        <p>A říše, která pohlcovala svět.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  První náhled webové interaktivní knihy — začátek rukopisu a první tři kapitoly.
+</footer>
 
 <audio id="bg-music" src="assets/music.mp3" loop></audio>
 
 <script>
-let musicStarted = false;
+const synth = window.speechSynthesis;
+let currentUtterance = null;
+let currentButton = null;
+let musicPlaying = false;
 
-function playAudio(id) {
-  let audio = document.getElementById(id);
-  audio.play();
+function updateStatus(text) {
+  const status = document.getElementById('statusText');
+  if (status) status.textContent = text;
+}
 
-  if (!musicStarted) {
-    document.getElementById('bg-music').volume = 0.3;
-    document.getElementById('bg-music').play();
-    musicStarted = true;
+function getAvailableVoice() {
+  const voices = synth.getVoices ? synth.getVoices() : [];
+  return voices.find(v => v.lang && v.lang.toLowerCase().includes('cs'))
+    || voices.find(v => v.lang && v.lang.toLowerCase().includes('sk'))
+    || voices.find(v => v.lang && v.lang.toLowerCase().includes('en'))
+    || null;
+}
+
+function playNarration(id, btn) {
+  stopNarration();
+  const source = document.getElementById(id);
+  if (!source) return;
+
+  const text = source.innerText.replace(/\s+/g, ' ').trim();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'cs-CZ';
+  utterance.rate = 0.86;
+  utterance.pitch = 0.78;
+  utterance.volume = 1;
+
+  const voice = getAvailableVoice();
+  if (voice) utterance.voice = voice;
+
+  utterance.onstart = () => {
+    if (btn) {
+      btn.classList.add('active');
+      currentButton = btn;
+    }
+    updateStatus('Přehrává se audiokniha. Soundtrack může běžet zároveň.');
+  };
+
+  utterance.onend = () => {
+    if (currentButton) currentButton.classList.remove('active');
+    currentButton = null;
+    currentUtterance = null;
+    updateStatus('Kapitola dočetla. Můžeš pokračovat ve čtení nebo pustit další část.');
+  };
+
+  utterance.onerror = () => {
+    if (currentButton) currentButton.classList.remove('active');
+    currentButton = null;
+    currentUtterance = null;
+    updateStatus('Hlas se nepodařilo spustit. Zkus jiný prohlížeč nebo obnovit stránku.');
+  };
+
+  currentUtterance = utterance;
+  synth.speak(utterance);
+}
+
+function stopNarration() {
+  if (synth && synth.speaking) synth.cancel();
+  if (currentButton) currentButton.classList.remove('active');
+  currentButton = null;
+  currentUtterance = null;
+  updateStatus('Hlas zastaven.');
+}
+
+function syncMusicButtons() {
+  document.querySelectorAll('button').forEach(btn => {
+    if (btn.textContent.includes('Hudba') || btn.id === 'globalMusicBtn' || btn.textContent.includes('soundtrack')) {
+      if (musicPlaying) btn.classList.add('active');
+      else btn.classList.remove('active');
+    }
+  });
+}
+
+function toggleMusic() {
+  const music = document.getElementById('bg-music');
+  if (!music) return;
+
+  if (!musicPlaying) {
+    music.volume = 0.28;
+    music.play().then(() => {
+      musicPlaying = true;
+      syncMusicButtons();
+      updateStatus('Soundtrack běží.');
+    }).catch(() => {
+      updateStatus('Hudbu prohlížeč zablokoval. Klikni znovu.');
+    });
+  } else {
+    music.pause();
+    musicPlaying = false;
+    syncMusicButtons();
+    updateStatus('Soundtrack zastaven.');
   }
 }
 
-function stopAudio(id) {
-  let audio = document.getElementById(id);
-  audio.pause();
-  audio.currentTime = 0;
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = () => {};
 }
 </script>
 
